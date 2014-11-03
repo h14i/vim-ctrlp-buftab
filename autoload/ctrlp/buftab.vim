@@ -39,7 +39,7 @@ endfunction "}}}
 
 function! ctrlp#buftab#init() "{{{
   if !exists('g:loaded_tabpagebuffer')
-    s:errormsg('Not installed tabpagebuffer.vim')
+    call s:errormsg('Not installed tabpagebuffer.vim')
     return []
   endif
   if !exists('t:tabpagebuffer')
