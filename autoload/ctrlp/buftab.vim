@@ -3,11 +3,7 @@ scriptencoding utf-8
 let s:cpo = &cpo
 set cpo&vim
 
-let s:ignore_pattern =
-\ get(g:, 'ctrlp_buftab_ignore_pattern', '\/\.\(git\|hg\|svn\|bzr\)')
-
-let s:ignore_buftype =
-\ get(g:, 'ctrlp_buftab_ignore_buftype', 'explorer\|help\|quickfix')
+" init
 
 let s:buftab = {
 \   'init'  : 'ctrlp#buftab#init()',
@@ -37,6 +33,33 @@ function! ctrlp#buftab#id() "{{{
   return s:id
 endfunction "}}}
 
+" core
+
+function! s:get_buffers() "{{{
+  return map(keys(copy(t:tabpagebuffer)), "str2nr(v:val)")
+endfunction "}}}
+
+function! s:remove_special_buffer(buflist) "{{{
+  return filter(a:buflist, 'getbufvar(v:val, "&buftype") == ""')
+endfunction "}}}
+
+function! s:to_bufname_list(bufnr_list) "{{{
+  return map(a:bufnr_list, "bufname(v:val)")
+endfunction "}}}
+
+let s:dot_pattern = '^\.\|\/\.'
+
+function! s:remove_ignored_bufname(buflist) "{{{
+  let buflist = a:buflist
+  if !exists('g:ctrlp_show_hidden') || g:ctrlp_show_hidden == 0
+    let buflist = filter(buflist, "match(v:val, s:dot_pattern) < 0")
+  endif
+  if exists('g:ctrlp#buftab#ignore_pattern') && g:ctrlp#buftab#ignore_pattern
+    let buflist = filter(buflist, "g:ctrlp#buftab#ignore_pattern !~# v:val")
+  endif
+  return buflist
+endfunction "}}}
+
 function! ctrlp#buftab#init() "{{{
   if !exists('g:loaded_tabpagebuffer')
     call s:errormsg('Not installed tabpagebuffer.vim')
@@ -46,21 +69,21 @@ function! ctrlp#buftab#init() "{{{
     return []
   endif
 
-  let bufnr_list = map(keys(copy(t:tabpagebuffer)), "str2nr(v:val)")
-  " スペシャルなバッファは除外する
-  let bufnr_list = filter(bufnr_list, 'getbufvar(v:val, "&buftype") == ""')
+  let bufnr_list = s:get_buffers()
 
-  let bufname_list = map(bufnr_list, "bufname(v:val)")
-  " 特定の名前のバッファを除外する
-  let bufname_list = filter(bufname_list, "s:ignore_pattern !~# v:val")
+  let bufnr_list = s:remove_special_buffer(bufnr_list)
+
+  let bufname_list = s:to_bufname_list(bufnr_list)
+
+  let bufname_list = s:remove_ignored_bufname(bufname_list)
 
   return bufname_list
 endfunction "}}}
 
+" finish
 
 function! ctrlp#buftab#accept(mode, str) "{{{
   call ctrlp#exit()
-  " TODO: jump to target buffer
   exec 'buffer' fnameescape(a:str)
 endfunction "}}}
 
