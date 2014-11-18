@@ -1,0 +1,15 @@
+" test helper for themis.vim
+" if you want run test, need some addtional plugins.
+"   - thinca/vim-themis
+"     - testing framework for vim
+"   - thinca/vim-scall
+"     - script-local function invoking helper for vim
+
+call themis#option('recursive', 1)
+call themis#option('runtimepath', expand('<sfile>:p:h:h'))
+call themis#option('runtimepath', expand('<sfile>:p:h:h:h') . '/ctrlp.vim')
+call themis#option('runtimepath', expand('<sfile>:p:h:h:h') . '/tabpagebuffer.vim')
+call themis#option('runtimepath', expand('<sfile>:p:h:h:h') . '/vim-scall')
+call themis#helper('command').with(themis#helper('assert'))
+
+" vim:set ft=vim:

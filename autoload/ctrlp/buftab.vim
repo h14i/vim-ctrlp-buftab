@@ -35,29 +35,28 @@ endfunction "}}}
 
 " core
 
-function! s:get_buffers() "{{{
-  return map(keys(copy(t:tabpagebuffer)), "str2nr(v:val)")
-endfunction "}}}
-
 function! s:remove_special_buffer(buflist) "{{{
-  return filter(copy(a:buflist), 'getbufvar(v:val, "&buftype") == ""')
+  return filter(a:buflist, 'getbufvar(v:val, "&buftype") == ""')
 endfunction "}}}
 
 function! s:to_bufname_list(bufnr_list) "{{{
-  return map(copy(a:bufnr_list), "bufname(v:val)")
+  return map(a:bufnr_list, "bufname(v:val)")
 endfunction "}}}
 
-let s:dot_pattern = '^\.\|\/\.'
-
-function! s:remove_ignored_bufname(buflist) "{{{
-  let buflist = copy(a:buflist)
+function! s:remove_ignored_bufname(bufname_list) "{{{
+  let list = a:bufname_list
   if !exists('g:ctrlp_show_hidden') || g:ctrlp_show_hidden == 0
-    let buflist = filter(buflist, "match(v:val, s:dot_pattern) < 0")
+    let dot_pattern = '^\.\|\/\.'
+    let list = filter(list, "match(v:val, dot_pattern) < 0")
   endif
-  if exists('g:ctrlp#buftab#ignore_pattern') && g:ctrlp#buftab#ignore_pattern
-    let buflist = filter(buflist, "g:ctrlp#buftab#ignore_pattern !~# v:val")
+  if exists('g:ctrlp#buftab#ignore_pattern') && g:ctrlp#buftab#ignore_pattern != ""
+    let list = filter(list, "match(v:val, g:ctrlp#buftab#ignore_pattern) < 0")
   endif
-  return buflist
+  return list
+endfunction "}}}
+
+function! s:remove_empty_bufname(bufname_list) "{{{
+  return filter(a:bufname_list, 'v:val != ""')
 endfunction "}}}
 
 function! ctrlp#buftab#init() "{{{
@@ -69,13 +68,14 @@ function! ctrlp#buftab#init() "{{{
     return []
   endif
 
-  let bufnr_list = s:get_buffers()
+  let bufnr_list = map(keys(copy(t:tabpagebuffer)), "str2nr(v:val)")
 
   let bufnr_list = s:remove_special_buffer(bufnr_list)
 
   let bufname_list = s:to_bufname_list(bufnr_list)
 
   let bufname_list = s:remove_ignored_bufname(bufname_list)
+  let bufname_list = s:remove_empty_bufname(bufname_list)
 
   return bufname_list
 endfunction "}}}
