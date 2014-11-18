@@ -40,17 +40,17 @@ function! s:get_buffers() "{{{
 endfunction "}}}
 
 function! s:remove_special_buffer(buflist) "{{{
-  return filter(a:buflist, 'getbufvar(v:val, "&buftype") == ""')
+  return filter(copy(a:buflist), 'getbufvar(v:val, "&buftype") == ""')
 endfunction "}}}
 
 function! s:to_bufname_list(bufnr_list) "{{{
-  return map(a:bufnr_list, "bufname(v:val)")
+  return map(copy(a:bufnr_list), "bufname(v:val)")
 endfunction "}}}
 
 let s:dot_pattern = '^\.\|\/\.'
 
 function! s:remove_ignored_bufname(buflist) "{{{
-  let buflist = a:buflist
+  let buflist = copy(a:buflist)
   if !exists('g:ctrlp_show_hidden') || g:ctrlp_show_hidden == 0
     let buflist = filter(buflist, "match(v:val, s:dot_pattern) < 0")
   endif
