@@ -9,6 +9,10 @@ listing buffers in current tabpage only.
 * [ctrlpvim/ctrlp.vim](https://github.com/ctrlpvim/ctrlp.vim)
 * [Shougo/tabpagebuffer.vim](https://github.com/Shougo/tabpagebuffer.vim)
 
+## requirements for test
+
+see `test/.themisrc`.
+
 ## usage
 
 execute `:CtrlPBufTab`.
