@@ -1,12 +1,11 @@
 " plugin/ctrlp-buftab.vim
-scriptencoding utf-8
-let s:cpo = &cpo
-set cpo&vim
-
 if exists('g:loaded_ctrlp_buftab') && g:loaded_ctrlp_buftab
   finish
 endif
 let g:loaded_ctrlp_buftab = 1
+
+let s:cpo = &cpo
+set cpo&vim
 
 command! -nargs=0 CtrlPBufTab call ctrlp#init(ctrlp#buftab#id())
 
