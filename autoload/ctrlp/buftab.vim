@@ -1,7 +1,10 @@
 " autoload/ctrlp/buftab.vim
 scriptencoding utf-8
-let s:cpo = &cpo
-set cpo&vim
+
+if exists('g:loaded_ctrlp_buftab') && g:loaded_ctrlp_buftab
+  finish
+endif
+let g:loaded_ctrlp_buftab = 1
 
 " init
 
@@ -14,12 +17,11 @@ let s:buftab = {
 \   'sort'  : 0,
 \ }
 
-let g:ctrlp_ext_vars = get(g:, 'ctrlp_ext_vars', [])
-if index(g:ctrlp_ext_vars, s:buftab) < 0
-  call add(g:ctrlp_ext_vars, s:buftab)
+if exists('g:ctrlp_ext_vars') && !empty(g:ctrlp_ext_vars)
+  let g:ctrlp_ext_vars = add(g:ctrlp_ext_vars, s:buftab)
+else
+  let g:ctrlp_ext_vars = [s:buftab]
 endif
-
-unlet s:buftab
 
 function! s:errormsg(msg) "{{{
   echohl WarningMsg | echomsg a:msg | echohl None
@@ -87,6 +89,4 @@ function! ctrlp#buftab#accept(mode, str) "{{{
   exec 'buffer' fnameescape(a:str)
 endfunction "}}}
 
-let &cpo = s:cpo
-unlet s:cpo
 " vim: set sts=2 sw=2 et fdm=marker:
