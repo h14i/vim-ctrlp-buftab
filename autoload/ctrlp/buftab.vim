@@ -23,7 +23,7 @@ else
   let g:ctrlp_ext_vars = [s:buftab]
 endif
 
-function! s:errormsg(msg) "{{{
+function! s:errormsg(msg) abort "{{{
   echohl WarningMsg | echomsg a:msg | echohl None
 endfunction "}}}
 
@@ -31,21 +31,21 @@ if !exists('s:id')
   let s:id = get(g:, 'ctrlp_builtins') + len(g:ctrlp_ext_vars)
 endif
 
-function! ctrlp#buftab#id() "{{{
+function! ctrlp#buftab#id() abort "{{{
   return s:id
 endfunction "}}}
 
 " core
 
-function! s:remove_special_buffer(buflist) "{{{
+function! s:remove_special_buffer(buflist) abort "{{{
   return filter(a:buflist, 'getbufvar(v:val, "&buftype") == ""')
 endfunction "}}}
 
-function! s:to_bufname_list(bufnr_list) "{{{
+function! s:to_bufname_list(bufnr_list) abort "{{{
   return map(a:bufnr_list, "bufname(v:val)")
 endfunction "}}}
 
-function! s:remove_ignored_bufname(bufname_list) "{{{
+function! s:remove_ignored_bufname(bufname_list) abort "{{{
   let list = a:bufname_list
   if !exists('g:ctrlp_show_hidden') || g:ctrlp_show_hidden == 0
     let dot_pattern = '^\.\|\/\.'
@@ -57,11 +57,11 @@ function! s:remove_ignored_bufname(bufname_list) "{{{
   return list
 endfunction "}}}
 
-function! s:remove_empty_bufname(bufname_list) "{{{
+function! s:remove_empty_bufname(bufname_list) abort "{{{
   return filter(a:bufname_list, 'v:val != ""')
 endfunction "}}}
 
-function! ctrlp#buftab#init() "{{{
+function! ctrlp#buftab#init() abort "{{{
   if !exists('g:loaded_tabpagebuffer')
     call s:errormsg('Not installed tabpagebuffer.vim')
     return []
@@ -84,7 +84,7 @@ endfunction "}}}
 
 " finish
 
-function! ctrlp#buftab#accept(mode, str) "{{{
+function! ctrlp#buftab#accept(mode, str) abort "{{{
   call ctrlp#exit()
   exec 'buffer' fnameescape(a:str)
 endfunction "}}}
