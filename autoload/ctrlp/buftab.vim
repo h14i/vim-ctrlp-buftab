@@ -74,6 +74,16 @@ function! ctrlp#buftab#collect_all_buffers() "{{{
   return buflist
 endfunction "}}}
 
+function! ctrlp#buftab#filter_tabpagenr(tabpagenr) abort "{{{
+  let tab_buflist = []
+  for bufnr in ctrlp#buftab#collect_all_buffers()
+    if a:tabpagenr == getbufvar(bufnr, 'ctrlp_buftab_tabnr')
+      call add(tab_buflist, bufnr)
+    endif
+  endfor
+  return tab_buflist
+endfunction "}}}
+
 function! ctrlp#buftab#init() abort "{{{
   if !exists('g:loaded_tabpagebuffer')
     call s:errormsg('Not installed tabpagebuffer.vim')
