@@ -61,7 +61,7 @@ function! s:remove_empty_bufname(bufname_list) abort "{{{
   return filter(a:bufname_list, 'v:val != ""')
 endfunction "}}}
 
-function! ctrlp#buftab#collect_all_buffers() "{{{
+function! ctrlp#buftab#collect_all_buffers() abort "{{{
   let buflist = []
   let i = 1
   let last_buffer = bufnr('$')
@@ -87,12 +87,12 @@ endfunction "}}}
 function! ctrlp#buftab#init() abort "{{{
   let bufnr_list = ctrlp#buftab#filter_tabpagenr(tabpagenr())
 
-  let bufnr_list = s:remove_special_buffer(bufnr_list)
+  " let bufnr_list = s:remove_special_buffer(bufnr_list)
 
   let bufname_list = s:to_bufname_list(bufnr_list)
 
-  let bufname_list = s:remove_ignored_bufname(bufname_list)
-  let bufname_list = s:remove_empty_bufname(bufname_list)
+  " let bufname_list = s:remove_ignored_bufname(bufname_list)
+  " let bufname_list = s:remove_empty_bufname(bufname_list)
 
   return bufname_list
 endfunction "}}}
