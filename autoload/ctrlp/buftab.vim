@@ -61,6 +61,19 @@ function! s:remove_empty_bufname(bufname_list) abort "{{{
   return filter(a:bufname_list, 'v:val != ""')
 endfunction "}}}
 
+function! ctrlp#buftab#collect_all_buffers() "{{{
+  let buflist = []
+  let i = 1
+  let last_buffer = bufnr('$')
+  while i <= last_buffer
+    if buflisted(i)
+      call add(buflist, i)
+    endif
+    let i += 1
+  endwhile
+  return buflist
+endfunction "}}}
+
 function! ctrlp#buftab#init() abort "{{{
   if !exists('g:loaded_tabpagebuffer')
     call s:errormsg('Not installed tabpagebuffer.vim')
