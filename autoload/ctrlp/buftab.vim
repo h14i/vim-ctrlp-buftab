@@ -85,15 +85,7 @@ function! ctrlp#buftab#filter_tabpagenr(tabpagenr) abort "{{{
 endfunction "}}}
 
 function! ctrlp#buftab#init() abort "{{{
-  if !exists('g:loaded_tabpagebuffer')
-    call s:errormsg('Not installed tabpagebuffer.vim')
-    return []
-  endif
-  if !exists('t:tabpagebuffer')
-    return []
-  endif
-
-  let bufnr_list = map(keys(copy(t:tabpagebuffer)), "str2nr(v:val)")
+  let bufnr_list = ctrlp#buftab#filter_tabpagenr(tabpagenr())
 
   let bufnr_list = s:remove_special_buffer(bufnr_list)
 
