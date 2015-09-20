@@ -1,5 +1,7 @@
 # ctrlp-buftab.vim
 
+_this plugin are not stable._
+
 inspired by unite.vim's 'buffer\_tab'.
 
 listing buffers in current tabpage only.
@@ -10,7 +12,9 @@ listing buffers in current tabpage only.
 
 ## requirements for test
 
-see `test/.themisrc`.
+* [thinca/vim-themis](https://github.com/thinca/vim-themis)
+
+see also `test/.themisrc`.
 
 ## usage
 
@@ -19,3 +23,8 @@ execute `:CtrlPBufTab`.
 ## license
 
 public domain.
+
+## TODO
+
+* remove current buffer names for `g:ctrlp_open_single_match`.
+
