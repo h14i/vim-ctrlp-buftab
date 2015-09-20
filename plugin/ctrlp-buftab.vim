@@ -1,4 +1,8 @@
 " plugin/ctrlp-buftab.vim
+"
+" name   : ctrlp-buftab.vim
+" license: public domain
+"
 " setup "{{{
 if exists('g:loaded_ctrlp_buftab') && g:loaded_ctrlp_buftab
   finish

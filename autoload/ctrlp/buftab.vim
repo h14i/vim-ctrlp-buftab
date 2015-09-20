@@ -1,4 +1,8 @@
 " autoload/ctrlp/buftab.vim
+"
+" name   : ctrlp-buftab.vim
+" license: public domain
+"
 scriptencoding utf-8
 
 " init
