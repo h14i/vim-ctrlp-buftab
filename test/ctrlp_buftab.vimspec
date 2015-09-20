@@ -1,0 +1,74 @@
+" test/test.vim
+
+Describe ctrlp#buftab
+  Describe #id():
+    It return positive number
+      Assert Compare(ctrlp#buftab#id(), '>', 0)
+    End
+  End
+
+  Describe #init():
+    It return []
+      Assert Equals(ctrlp#buftab#init(), [])
+    End
+  End
+End
+
+Describe privates:
+  Before each
+    let subject = [
+    \   '/home/h14i/path/to/file',
+    \   '/home/h14i/.vim/vimrc',
+    \   '.git/index',
+    \   'vim-ctrlp-buftab/test/.themisrc',
+    \   'vim-ctrlp-buftab/test/test.vim',
+    \ ]
+    " for scall.vim
+    let lib_path = 'autoload/ctrlp/buftab.vim'
+  End
+
+  Describe s:remove_ignored_bufname():
+    Describe use g:ctrlp_show_hidden:
+      It not remove hidden names
+        let nlist = len(subject)
+        let g:ctrlp_show_hidden = 1
+
+        Assert Equals(
+        \   len(scall#call(lib_path . ':remove_ignored_bufname', subject)),
+        \   nlist)
+      End
+    End
+
+    Describe not use g:ctrlp_show_hidden:
+
+      It remove hidden names
+        let g:ctrlp_show_hidden = 0
+
+        Assert Equals(
+        \   scall#call(lib_path . ':remove_ignored_bufname', subject),
+        \   ['/home/h14i/path/to/file', 'vim-ctrlp-buftab/test/test.vim'])
+      End
+
+      It remove hidden names & ignored patterns
+        let g:ctrlp_show_hidden = 0
+        let g:ctrlp#buftab#ignore_pattern = 'home'
+
+        Assert Equals(
+        \   scall#call(lib_path . ':remove_ignored_bufname', subject),
+        \   ['vim-ctrlp-buftab/test/test.vim'])
+      End
+    End
+  End
+
+  Describe s:remote_empty_bufname():
+    It returns array that not included empty element
+      let list = ['aaa', '', 'bbb', 'ccc']
+
+      Assert Equals(
+      \   scall#call(lib_path . ':remove_empty_bufname', list),
+      \   ['aaa', 'bbb', 'ccc'])
+    End
+  End
+End
+
+" vim: set fdm=marker sts=2 sw=2 et:
