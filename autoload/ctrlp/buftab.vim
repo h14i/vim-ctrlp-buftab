@@ -1,11 +1,6 @@
 " autoload/ctrlp/buftab.vim
 scriptencoding utf-8
 
-if exists('g:loaded_ctrlp_buftab') && g:loaded_ctrlp_buftab
-  finish
-endif
-let g:loaded_ctrlp_buftab = 1
-
 " init
 
 let s:buftab = {
