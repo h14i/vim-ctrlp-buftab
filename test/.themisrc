@@ -7,10 +7,8 @@
 
 call themis#option('recursive', 1)
 call themis#option('reporter', 'dot')
-call themis#option('runtimepath', expand('<sfile>:p:h:h'))
-call themis#option('runtimepath', expand('<sfile>:p:h:h:h') . '/ctrlp.vim')
-" call themis#option('runtimepath', expand('<sfile>:p:h:h:h') . '/tabpagebuffer.vim')
-call themis#option('runtimepath', expand('<sfile>:p:h:h:h') . '/vim-scall')
+call themis#option('runtimepath', expand('~') . '/.vim/bundle/ctrlp.vim')
+call themis#option('runtimepath', expand('~') . '/.vim/bundle/vim-scall')
 call themis#helper('command').with(themis#helper('assert'))
 
 " vim:set ft=vim:

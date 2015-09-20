@@ -27,45 +27,49 @@ Describe privates:
     let lib_path = 'autoload/ctrlp/buftab.vim'
   End
 
-  Describe s:remove_ignored_bufname():
-    Describe use g:ctrlp_show_hidden:
-      It not remove hidden names
-        let nlist = len(subject)
-        let g:ctrlp_show_hidden = 1
-
-        Assert Equals(
-        \   len(scall#call(lib_path . ':remove_ignored_bufname', subject)),
-        \   nlist)
-      End
+  Describe s:bufnr_list():
+    Before each
+      unlet! subject
+      let subject = {'1': '1', '2': '2', '3': '3' }
     End
 
-    Describe not use g:ctrlp_show_hidden:
-
-      It remove hidden names
-        let g:ctrlp_show_hidden = 0
-
-        Assert Equals(
-        \   scall#call(lib_path . ':remove_ignored_bufname', subject),
-        \   ['/home/h14i/path/to/file', 'vim-ctrlp-buftab/test/test.vim'])
-      End
-
-      It remove hidden names & ignored patterns
-        let g:ctrlp_show_hidden = 0
-        let g:ctrlp#buftab#ignore_pattern = 'home'
-
-        Assert Equals(
-        \   scall#call(lib_path . ':remove_ignored_bufname', subject),
-        \   ['vim-ctrlp-buftab/test/test.vim'])
-      End
+    It return number of array
+      Assert Equals(
+      \   scall#call(lib_path . ':bufnr_list', subject),
+      \   [1, 2, 3])
     End
   End
 
-  Describe s:remote_empty_bufname():
+  Describe s:remove_hidden() (for g:ctrlp_show_hidden):
+    It remove hidden names
+      Assert Equals(
+      \   scall#call(lib_path . ':remove_hidden', subject),
+      \   ['/home/h14i/path/to/file', 'vim-ctrlp-buftab/test/test.vim'])
+    End
+  End
+
+  Describe s:remove_ignored_name():
+    It remove nothing when not exists g:ctrlp#buftab#ignore_pattern or empty it
+      Assert Equals(
+      \   scall#call(lib_path . ':remove_ignored_name', subject),
+      \   subject)
+    End
+
+    It remove hidden names & ignored patterns
+      let g:ctrlp#buftab#ignore_pattern = 'home'
+
+      Assert Equals(
+      \   scall#call(lib_path . ':remove_ignored_name', subject),
+      \   ['.git/index', 'vim-ctrlp-buftab/test/.themisrc', 'vim-ctrlp-buftab/test/test.vim'])
+    End
+  End
+
+  Describe s:remote_empty():
     It returns array that not included empty element
       let list = ['aaa', '', 'bbb', 'ccc']
 
       Assert Equals(
-      \   scall#call(lib_path . ':remove_empty_bufname', list),
+      \   scall#call(lib_path . ':remove_empty', list),
       \   ['aaa', 'bbb', 'ccc'])
     End
   End
