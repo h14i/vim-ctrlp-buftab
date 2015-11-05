@@ -28,9 +28,7 @@ endfunction "}}}
 
 " Public API
 
-if !exists('s:id')
-  let s:id = get(g:, 'ctrlp_builtins') + len(g:ctrlp_ext_vars)
-endif
+let s:id = ctrlp#getvar('g:ctrlp_builtins') + len(g:ctrlp_ext_vars)
 
 function! ctrlp#buftab#id() abort "{{{
   return s:id
