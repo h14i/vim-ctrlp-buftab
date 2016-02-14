@@ -4,11 +4,12 @@
 "     - testing framework for vim
 "   - thinca/vim-scall
 "     - script-local function invoking helper for vim
-
 call themis#option('recursive', 1)
 call themis#option('reporter', 'dot')
-call themis#option('runtimepath', expand('~') . '/.vim/bundle/ctrlp.vim')
-call themis#option('runtimepath', expand('~') . '/.vim/bundle/vim-scall')
 call themis#helper('command').with(themis#helper('assert'))
-
+call themis#option('runtimepath', exists('$CTRLP_VIM_PATH') && isdirectory($CTRLP_VIM_PATH)
+\   ? $CTRLP_VIM_PATH : expand('$HOME/.vim'))
+if exists('$SCALL_VIM_PATH') && isdirectory($SCALL_VIM_PATH)
+  call themis#option('runtimepath', $SCALL_VIM_PATH)
+endif
 " vim:set ft=vim:
