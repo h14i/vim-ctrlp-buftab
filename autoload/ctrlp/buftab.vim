@@ -5,26 +5,19 @@
 "
 scriptencoding utf-8
 
-" init
+function! s:errormsg(msg) abort "{{{
+  echohl WarningMsg | echomsg a:msg | echohl None
+endfunction "}}}
 
-let s:buftab = {
+" Initialization
+let g:ctrlp_ext_vars = get(g:, 'ctrlp_ext_vars', []) + [{
 \   'init'  : 'ctrlp#buftab#init()',
 \   'accept': 'ctrlp#buftab#accept',
 \   'lname' : 'buftab',
 \   'sname' : 'btab',
 \   'type'  : 'line',
 \   'sort'  : 0,
-\ }
-
-if exists('g:ctrlp_ext_vars') && !empty(g:ctrlp_ext_vars)
-  let g:ctrlp_ext_vars = add(g:ctrlp_ext_vars, s:buftab)
-else
-  let g:ctrlp_ext_vars = [s:buftab]
-endif
-
-function! s:errormsg(msg) abort "{{{
-  echohl WarningMsg | echomsg a:msg | echohl None
-endfunction "}}}
+\ }]
 
 " Public API
 
