@@ -40,7 +40,7 @@ function! ctrlp#buftab#init() abort "{{{
     call filter(bufnames, 'v:val !~# ''/\.\f\+''')
   endif
   if get(g:, 'ctrlp_buftab_ignore_pattern', '') !=# ''
-    filter(bufnames, 'v:val !~ g:ctrlp_buftab_ignore_pattern')
+    call filter(bufnames, 'v:val !~ ''' . g:ctrlp_buftab_ignore_pattern . '''')
   endif
   " let bufnames = s:remove_empty(bufnames)
 
