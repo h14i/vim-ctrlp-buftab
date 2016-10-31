@@ -37,9 +37,11 @@ function! ctrlp#buftab#init() abort "{{{
 
   let bufnames = map(bufnrs, 'bufname(v:val)')
   if !get(g:, 'ctrlp_buftab_show_hidden', get(g:, 'ctrlp_show_hidden', 0))
-    let bufnames = s:remove_hidden(bufnames)
+    call filter(bufnames, 'v:val !~# ''/\.\f\+''')
   endif
-  " let bufnames = s:remove_ignored_name(bufnames)
+  if get(g:, 'ctrlp_buftab_ignore_pattern', '') !=# ''
+    filter(bufnames, 'v:val !~ g:ctrlp_buftab_ignore_pattern')
+  endif
   " let bufnames = s:remove_empty(bufnames)
 
   return bufnames
@@ -60,19 +62,6 @@ endfunction "}}}
 
 function! s:remove_special_buffer(buflist) abort "{{{
   return filter(a:buflist, 'getbufvar(v:val, ''&buftype'') ==# ''''')
-endfunction "}}}
-
-function! s:remove_hidden(buflist) abort "{{{
-  let pat = '^\.\|\/\.'
-  return filter(a:buflist, 'match(v:val, pat) < 0')
-endfunction "}}}
-
-function! s:remove_ignored_name(bufname_list) abort "{{{
-  let list = a:bufname_list
-  if exists('g:ctrlp#buftab#ignore_pattern') && g:ctrlp#buftab#ignore_pattern !=# ''
-    let list = filter(list, 'match(v:val, g:ctrlp#buftab#ignore_pattern) < 0')
-  endif
-  return list
 endfunction "}}}
 
 function! s:remove_empty(bufname_list) abort "{{{
