@@ -36,7 +36,7 @@ function! ctrlp#buftab#init() abort "{{{
   " let bufnrs = s:remove_special_buffer(bufnrs)
 
   let bufnames = map(bufnrs, 'bufname(v:val)')
-  if !get(g:, 'ctrlp_show_hidden', 0)
+  if !get(g:, 'ctrlp_buftab_show_hidden', get(g:, 'ctrlp_show_hidden', 0))
     let bufnames = s:remove_hidden(bufnames)
   endif
   " let bufnames = s:remove_ignored_name(bufnames)
