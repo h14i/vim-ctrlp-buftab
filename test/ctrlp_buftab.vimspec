@@ -28,14 +28,14 @@ if globpath(&runtimepath, 'autoload/scall.vim') !=# ''
       let lib_path = 'autoload/ctrlp/buftab.vim'
     End
 
-    Describe s:bufnr_list():
+    Describe s:to_list():
       Before each
         unlet! subject
         let subject = {'1': '1', '2': '2', '3': '3' }
       End
 
       It return number of array
-        Assert Equals(scall#call(lib_path . ':bufnr_list', subject),
+        Assert Equals(scall#call(lib_path . ':to_list', subject),
         \             [1, 2, 3])
       End
     End
