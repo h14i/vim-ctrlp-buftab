@@ -40,8 +40,6 @@ augroup plugin-ctrlp-buftab
   autocmd BufDelete,BufUnload * call s:remove(expand('<abuf>'))
 augroup END
 
-command! -nargs=0 CtrlPBufTab call ctrlp#init(ctrlp#buftab#id())
-
 " teardown "{{{
 let &cpo = s:cpo
 unlet s:cpo
