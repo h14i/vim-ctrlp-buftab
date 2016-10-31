@@ -5,8 +5,8 @@
 "
 scriptencoding utf-8
 
-function! s:errormsg(msg) abort "{{{
-  echohl WarningMsg | echomsg a:msg | echohl None
+function! s:error(msg) abort "{{{
+  echohl ErrorMsg | echomsg a:msg | echohl None
 endfunction "}}}
 
 " Initialization
