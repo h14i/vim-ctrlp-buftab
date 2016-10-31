@@ -40,27 +40,6 @@ if globpath(&runtimepath, 'autoload/scall.vim') !=# ''
       End
     End
 
-    Describe s:remove_hidden() (for g:ctrlp_show_hidden):
-      It remove hidden names
-        Assert Equals(scall#call(lib_path . ':remove_hidden', subject),
-        \             ['/home/h14i/path/to/file', 'vim-ctrlp-buftab/test/test.vim'])
-      End
-    End
-
-    Describe s:remove_ignored_name():
-      It remove nothing when not exists g:ctrlp#buftab#ignore_pattern or empty
-        Assert Equals(scall#call(lib_path . ':remove_ignored_name', subject),
-        \             subject)
-      End
-
-      It remove hidden names & ignored patterns
-        let g:ctrlp#buftab#ignore_pattern = 'home'
-
-        Assert Equals(scall#call(lib_path . ':remove_ignored_name', subject),
-        \             ['.git/index', 'vim-ctrlp-buftab/test/.themisrc', 'vim-ctrlp-buftab/test/test.vim'])
-      End
-    End
-
     Describe s:remote_empty():
       It returns array that not included empty element
         let list = ['aaa', '', 'bbb', 'ccc']
