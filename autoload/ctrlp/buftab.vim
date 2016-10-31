@@ -32,37 +32,30 @@ function! ctrlp#buftab#init() abort "{{{
     return []
   endif
 
-  let bufnr_list = s:bufnr_list(t:ctrlp_buftab_bufnrs)
+  let bufnrs = s:to_list(t:ctrlp_buftab_bufnrs)
+  " let bufnrs = s:remove_special_buffer(bufnrs)
 
-  " let bufnr_list = s:remove_special_buffer(bufnr_list)
-
-  let bufname_list = s:to_bufname(bufnr_list)
-
+  let bufnames = map(bufnrs, 'bufname(v:val)')
   if !get(g:, 'ctrlp_show_hidden', 0)
-    let bufname_list = s:remove_hidden(bufname_list)
+    let bufnames = s:remove_hidden(bufnames)
   endif
+  " let bufnames = s:remove_ignored_name(bufnames)
+  " let bufnames = s:remove_empty(bufnames)
 
-  " let bufname_list = s:remove_ignored_name(bufname_list)
-  " let bufname_list = s:remove_empty(bufname_list)
-
-  return bufname_list
+  return bufnames
 endfunction "}}}
 
 " finish
 
 function! ctrlp#buftab#accept(mode, str) abort "{{{
   call ctrlp#exit()
-  exec 'buffer' fnameescape(a:str)
+  execute 'buffer' fnameescape(a:str)
 endfunction "}}}
 
 " Private functions
 
-function! s:bufnr_list(dict) abort "{{{
+function! s:to_list(dict) abort "{{{
   return map(keys(a:dict), 'str2nr(v:val)')
-endfunction "}}}
-
-function! s:to_bufname(bufnr_list) abort "{{{
-  return map(a:bufnr_list, 'bufname(v:val)')
 endfunction "}}}
 
 function! s:remove_special_buffer(buflist) abort "{{{
